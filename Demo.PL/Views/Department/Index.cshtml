@@ -1,0 +1,51 @@
+﻿@using Demo.BLL.DTOs
+@model IEnumerable<DepartmentDto> ;
+
+    <h1>All Department</h1>
+
+    <a class="btn btn-primary my-3" asp-controller="Department" asp-action="create" >create new department</a>
+
+    <br />
+
+@if (Model.Any())
+{
+    <table class="table table-hover mt-2">
+        <thead>
+            <tr class="text-center">
+                <th>@Html.DisplayNameFor(dep=>dep.Code)</th>
+                <th>@Html.DisplayNameFor(dep => dep.Name)</th>
+                <th>@Html.DisplayNameFor(dep => dep.Description)</th>
+                <th>@Html.DisplayNameFor(dep => dep.DateOfCreation)</th>
+                <th>details</th>
+                <th>update</th>
+                <th>delete</th>
+            </tr>
+        </thead>
+        <tbody class="text-center">
+            @foreach (var department in Model)
+            {
+                <tr>
+                    <td>@department.Code</td>
+                    <td>@department.Name</td>
+                    <td>@department.Description</td>
+                    <td>@department.DateOfCreation</td>
+                    <td><a class="btn btn-primary" asp-action="Details" asp-route-id="@department.DeptId">Dtails</a></td>
+                    <td><a class="btn btn-success" asp-action="Edit" asp-route-id="@department.DeptId">Edit</a></td>
+                    <td><a class="btn btn-danger" asp-action="Delete" asp-route-id="@department.DeptId">Delete</a></td>
+                </tr>
+            
+            }
+
+        </tbody>
+    </table>
+
+
+}
+else
+{
+    
+    <div class="alert alert-info mt-2" >
+        <h2>no department found!</h2>
+    </div>
+
+}
