@@ -1,8 +1,9 @@
 ﻿using Demo.BLL.DTOs;
-using Demo.BLL.Services;
+using Demo.BLL.DTOs.Department;
+using Demo.BLL.Services.Interfaces;
 using Demo.PL.ViewModels;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
+
 
 namespace Demo.PL.Controllers
 {
@@ -182,6 +183,7 @@ namespace Demo.PL.Controllers
 
             }
         }
+
 
 
     }

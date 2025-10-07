@@ -1,7 +1,9 @@
-using Demo.BLL.Services;
+using Demo.BLL.MappingProfiles;
+using Demo.BLL.Services.Classes;
+using Demo.BLL.Services.Interfaces;
 using Demo.DAL.Contexts;
-using Demo.DAL.Data.Repositories;
-using Demo.DAL.Repositories;
+using Demo.DAL.Repositories.Classes;
+using Demo.DAL.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace Demo.PL
@@ -22,8 +24,11 @@ namespace Demo.PL
             });
 
             builder.Services.AddScoped<IDepartmentRepository,DepartmentRepository>();
+            builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
             builder.Services.AddScoped<IDepartmentService, DepartmentService>();
-            
+            builder.Services.AddScoped<IEmployeeService, EmployeeService>();
+            builder.Services.AddAutoMapper(M => M.AddProfile(new MappingProfiles()));
+
 
 
             var app = builder.Build();

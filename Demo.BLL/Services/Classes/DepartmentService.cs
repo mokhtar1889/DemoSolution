@@ -1,9 +1,10 @@
-﻿using Demo.BLL.DTOs;
+﻿using Demo.BLL.DTOs.Department;
 using Demo.BLL.Factories;
-using Demo.DAL.Data.Repositories;
+using Demo.BLL.Services.Interfaces;
+using Demo.DAL.Repositories.Interfaces;
 
 
-namespace Demo.BLL.Services
+namespace Demo.BLL.Services.Classes
 {
     public class DepartmentService(IDepartmentRepository departmentRepository) : IDepartmentService
     {
@@ -46,12 +47,10 @@ namespace Demo.BLL.Services
             var department = departmentRepository.GetById(id);
 
             if (department is null) return false;
-
             else
             {
-                var res = departmentRepository.Remove(department);
-                if (res > 0) return true;
-                else return false;
+                return departmentRepository.Remove(department) > 0 ? true : false;
+                
             }
         }
     }
