@@ -34,30 +34,40 @@ namespace Demo.PL.Controllers
         }
 
         [HttpPost]
-        public IActionResult create(CreatedDepartmentDto departmentDto) {
+        [ValidateAntiForgeryToken]
+        public IActionResult create(DepartmentViewModel departmentModel) {
 
             if (ModelState.IsValid) {
 
                 try {
-
-                    int res = departmentService.AddDepartment(departmentDto);
-                    if (res > 0) return RedirectToAction(nameof(index));
-                    else
+                    var departmentDto = new CreatedDepartmentDto()
                     {
 
-                        ModelState.AddModelError(string.Empty, "Department can not be added");
-                        return View(departmentDto);
+                        Code = departmentModel.Code,
+                        Name = departmentModel.Name,
+                        Description = departmentModel.Description,
+                        DateOfCreation = departmentModel.DateOfCreation,
 
-                    }
-                
+                    };
+                    int res = departmentService.AddDepartment(departmentDto);
+                    string message;
+
+                    if (res > 0) message = $"Depatment {departmentModel.Name} created successfully"; 
+                    else
+                        message = $"Depatment {departmentModel.Name} not created";
+
+                    TempData["message"] = message ;
+
+                    return RedirectToAction(nameof(index));
+
                 } catch (Exception ex) {
 
                     if (environment.IsDevelopment()) {
                         ModelState.AddModelError(string.Empty,ex.Message);
-                        return View(departmentDto);
+                        return View(departmentModel);
                     }
                     else { 
-                        return View(departmentDto);
+                        return View(departmentModel);
                     }
                     
                 
@@ -65,7 +75,7 @@ namespace Demo.PL.Controllers
             
             
             
-            } else return View(departmentDto);
+            } else return View(departmentModel);
             
             
         

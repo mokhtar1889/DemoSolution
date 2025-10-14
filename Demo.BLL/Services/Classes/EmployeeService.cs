@@ -31,8 +31,51 @@ namespace Demo.BLL.Services.Classes
 
         public IEnumerable<EmployeeDto> GetAllEmployees()
         {
-            var employees = employeeRepository.GetAll();
-            return _mapper.Map<IEnumerable<EmployeeDto>>(employees);
+            // first overload
+            //var employees = employeeRepository.GetAll();
+            //return _mapper.Map<IEnumerable<EmployeeDto>>(employees);
+
+            // second overload
+            var employees = employeeRepository.GetAll(e => new EmployeeDto() { 
+            
+                Id = e.Id,
+                Name = e.Name,
+                Salary = e.Salary,
+                Age = e.Age,
+            
+            });
+            return employees;
+
+
+
+            #region IEnumerable (return all data from database and filteration inside the application)
+            //var result = employeeRepository.GetEnumerable()
+            //                               .Where(e => e.IsDeleted == false)
+            //                               .Select(e => new EmployeeDto() { 
+
+            //                                   Id = e.Id,
+            //                                   Name = e.Name,
+            //                                   Age = e.Age,
+
+            //                               });
+            //return result.ToList();
+
+            #endregion
+
+            #region IQuerable (the selection and filteration of the data inside database)
+            //var result = employeeRepository.GetQueryable()
+            //                               .Where(e => e.IsDeleted == false)
+            //                               .Select(e => new EmployeeDto()
+            //                               {
+
+            //                                   Id = e.Id,
+            //                                   Name = e.Name,
+            //                                   Age = e.Age,
+
+            //                               });
+            //return result.ToList();
+
+            #endregion
 
 
         }

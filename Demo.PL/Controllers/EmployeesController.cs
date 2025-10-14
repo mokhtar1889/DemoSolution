@@ -11,7 +11,7 @@ using System;
 
 namespace Demo.PL.Controllers
 {
-    public class EmployeesController(IEmployeeService employeeService, IWebHostEnvironment environment) : Controller
+    public class EmployeesController(IEmployeeService employeeService, IWebHostEnvironment environment , IDepartmentService departmentService) : Controller
     {
         public IActionResult Index() { 
             
@@ -21,12 +21,29 @@ namespace Demo.PL.Controllers
         }
 
         [HttpGet]
-        public IActionResult Create() {   
+        public IActionResult Create() {
+            ViewData["Departments"] = departmentService.GetAllDepartments();
             return View();
         }
 
         [HttpPost]
-        public IActionResult Create(CreatedEmployeeDto employeeDto ) {
+        public IActionResult Create(EmployeeViewModel employeeModel) {
+
+            var employeeDto = new CreatedEmployeeDto()
+            {
+
+                Name = employeeModel.Name,
+                Age = employeeModel.Age,
+                Address = employeeModel.Address,
+                DepartmentId = employeeModel.DepartmentId,
+                Gender = employeeModel.Gender,
+                HiringDate = employeeModel.HiringDate,
+                IsActive = employeeModel.IsActive,
+                PhoneNumber = employeeModel.PhoneNumber,
+                Salary = employeeModel.Salary,
+                Email = employeeModel.Email,
+                EmployeeType = employeeModel.EmployeeType,
+            };
 
             if (ModelState.IsValid)
             {
@@ -111,10 +128,23 @@ namespace Demo.PL.Controllers
         }
 
         [HttpPost]
-        public IActionResult Edit([FromRoute] int id, UpdatedEmployeeDto dto) {
+        public IActionResult Edit([FromRoute] int id, EmployeeViewModel employeeModel) {
 
-            if(id != dto.Id) return BadRequest();
-
+            var dto = new UpdatedEmployeeDto()
+            {
+                Id = id ,
+                Name = employeeModel.Name,
+                Age = employeeModel.Age,
+                Address = employeeModel.Address,
+                DepartmentId = employeeModel.DepartmentId,
+                Gender = employeeModel.Gender,
+                HiringDate = employeeModel.HiringDate,
+                IsActive = employeeModel.IsActive,
+                PhoneNumber = employeeModel.PhoneNumber,
+                Salary = employeeModel.Salary,
+                Email = employeeModel.Email,
+                EmployeeType = employeeModel.EmployeeType,
+            };
             if (ModelState.IsValid)
             {
 
@@ -127,11 +157,11 @@ namespace Demo.PL.Controllers
                 catch (Exception ex)
                 {
 
-                    return View(dto);
+                    return View(employeeModel);
 
                 }
             }
-            else return View(dto);
+            else return View(employeeModel);
 
 
 

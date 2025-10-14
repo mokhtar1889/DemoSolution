@@ -1,4 +1,5 @@
-﻿using Demo.DAL.Models.Shared;
+﻿using Demo.DAL.Models.DepartmentModel;
+using Demo.DAL.Models.Shared;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,6 +20,8 @@ namespace Demo.DAL.Models.EmployeeModel
         public Gender Gender { get; set; }
         public string? PhoneNumber { get; set; }
         public EmployeeType EmployeeType { get; set; }
+        public Department? Department { get; set; }
+        public int DepartmentId { get; set; }
 
     }
 }

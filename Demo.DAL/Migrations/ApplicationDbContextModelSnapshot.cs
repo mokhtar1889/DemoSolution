@@ -63,7 +63,7 @@ namespace Demo.DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Departments");
+                    b.ToTable("Departments", (string)null);
                 });
 
             modelBuilder.Entity("Demo.DAL.Models.EmployeeModel.Employee", b =>
@@ -128,7 +128,7 @@ namespace Demo.DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Employees");
+                    b.ToTable("Employees", (string)null);
                 });
 #pragma warning restore 612, 618
         }

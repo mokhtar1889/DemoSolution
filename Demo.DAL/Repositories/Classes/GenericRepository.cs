@@ -23,9 +23,14 @@ namespace Demo.DAL.Repositories.Classes
         public IEnumerable<Entity> GetAll(bool withTracking = false)
         {
    
-            if (withTracking == true) return context.Set<Entity>().Where(entity => entity.IsDeleted == false).ToList();
+            if (withTracking == true) return context.Set<Entity>().ToList();
 
             else return context.Set<Entity>().AsNoTracking().Where(entity => entity.IsDeleted == false).ToList();
+        }
+
+        public IEnumerable<TResult> GetAll<TResult>(System.Linq.Expressions.Expression<Func<Entity, TResult>> selector)
+        {
+            return context.Set<Entity>().Where(entity => entity.IsDeleted == false).Select(selector);
         }
 
         // add Entity
@@ -52,5 +57,17 @@ namespace Demo.DAL.Repositories.Classes
             return context.SaveChanges();
 
         }
+
+        //public IEnumerable<Entity> GetEnumerable()
+        //{
+        //    return context.Set<Entity>();
+        //}
+
+        //public IQueryable<Entity> GetQueryable()
+        //{
+        //    return context.Set<Entity>();
+        //}
+
+
     }
 }
