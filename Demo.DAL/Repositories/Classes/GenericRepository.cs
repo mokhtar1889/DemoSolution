@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -34,28 +35,32 @@ namespace Demo.DAL.Repositories.Classes
         }
 
         // add Entity
-        public int Add(Entity Entity)
+        public void Add(Entity Entity)
         {
 
             context.Set<Entity>().Add(Entity);
-            return context.SaveChanges();
+
 
         }
 
-        public int Update(Entity Entity)
+        public void Update(Entity Entity)
         {
 
             context.Set<Entity>().Update(Entity);
-            return context.SaveChanges();
+
 
         }
 
-        public int Remove(Entity Entity)
+        public void Remove(Entity Entity)
         {
 
-            context.Set<Entity>().Remove(Entity);
-            return context.SaveChanges();
 
+
+        }
+
+        public IEnumerable<Entity> GetAll(Expression<Func<Entity, bool>> predicate)
+        {
+            return context.Set<Entity>().Where(predicate).ToList();
         }
 
         //public IEnumerable<Entity> GetEnumerable()

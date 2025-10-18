@@ -13,9 +13,9 @@ namespace Demo.PL.Controllers
 {
     public class EmployeesController(IEmployeeService employeeService, IWebHostEnvironment environment , IDepartmentService departmentService) : Controller
     {
-        public IActionResult Index() { 
+        public IActionResult Index(string? EmployeeSearchName) { 
             
-            var employees = employeeService.GetAllEmployees();
+            var employees = employeeService.GetAllEmployees(EmployeeSearchName);
             return View(employees);
         
         }

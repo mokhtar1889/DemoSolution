@@ -6,45 +6,48 @@ using Demo.DAL.Repositories.Interfaces;
 
 namespace Demo.BLL.Services.Classes
 {
-    public class EmployeeService(IEmployeeRepository employeeRepository, IMapper _mapper) : IEmployeeService
+    public class EmployeeService(IUnitOfWork unitOfWork,IEmployeeRepository employeeRepository ,IMapper _mapper) : IEmployeeService
     {
         public int AddEmployee(CreatedEmployeeDto employee)
         {
             var emp = _mapper.Map<Employee>(employee);
 
-            return employeeRepository.Add(emp);
+            unitOfWork.EmployeeRepository.Add(emp);
+
+            return unitOfWork.saveChanges();
             
         }
 
         public bool DeleteEmployee(int id)
         {
-            var emp = employeeRepository.GetById(id);
+            var emp = unitOfWork.EmployeeRepository.GetById(id);
             if (emp is null) return false;
             else { 
             
                 emp.IsDeleted = true;
-                return employeeRepository.Update(emp) > 0 ? true : false ;
-            
+                unitOfWork.EmployeeRepository.Update(emp)  ;
+                return unitOfWork.saveChanges()> 0 ? true : false;
+
+
             }
 
         }
 
-        public IEnumerable<EmployeeDto> GetAllEmployees()
+        public IEnumerable<EmployeeDto> GetAllEmployees(string? EmployeeSearchName)
         {
             // first overload
             //var employees = employeeRepository.GetAll();
             //return _mapper.Map<IEnumerable<EmployeeDto>>(employees);
 
-            // second overload
-            var employees = employeeRepository.GetAll(e => new EmployeeDto() { 
+            IEnumerable<Employee> employees;
             
-                Id = e.Id,
-                Name = e.Name,
-                Salary = e.Salary,
-                Age = e.Age,
-            
-            });
-            return employees;
+            if (string.IsNullOrWhiteSpace(EmployeeSearchName))
+
+                employees = employeeRepository.GetAll();
+                else 
+                employees = employeeRepository.GetAll(e => e.Name.ToLower().Contains(EmployeeSearchName.ToLower()));
+
+            return _mapper.Map<IEnumerable<Employee>, IEnumerable<EmployeeDto>>(employees);
 
 
 
@@ -91,7 +94,9 @@ namespace Demo.BLL.Services.Classes
         {
             var emp = _mapper.Map<Employee>(employee);
 
-            return employeeRepository.Update(emp);
+            unitOfWork.EmployeeRepository.Update(emp);
+
+            return unitOfWork.saveChanges();
         }
     }
 }

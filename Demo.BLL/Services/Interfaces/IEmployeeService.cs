@@ -6,7 +6,7 @@ namespace Demo.BLL.Services.Interfaces
     {
         int AddEmployee(CreatedEmployeeDto employee);
         bool DeleteEmployee(int id);
-        IEnumerable<EmployeeDto> GetAllEmployees();
+        IEnumerable<EmployeeDto> GetAllEmployees(string? EmployeeSearchName);
         EmployeeDetailsDto? GetById(int id);
         int UpdateEmployee(UpdatedEmployeeDto employee);
     }

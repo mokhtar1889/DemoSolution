@@ -31,6 +31,7 @@ namespace Demo.PL
             builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
             builder.Services.AddScoped<IDepartmentService, DepartmentService>();
             builder.Services.AddScoped<IEmployeeService, EmployeeService>();
+            builder.Services.AddScoped<IUnitOfWork , UnitOfWork>();
             builder.Services.AddAutoMapper(M => M.AddProfile(new MappingProfiles()));
 
 
