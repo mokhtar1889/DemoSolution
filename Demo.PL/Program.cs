@@ -2,8 +2,10 @@ using Demo.BLL.MappingProfiles;
 using Demo.BLL.Services.Classes;
 using Demo.BLL.Services.Interfaces;
 using Demo.DAL.Contexts;
+using Demo.DAL.Models.IdentityModels;
 using Demo.DAL.Repositories.Classes;
 using Demo.DAL.Repositories.Interfaces;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -33,6 +35,7 @@ namespace Demo.PL
             builder.Services.AddScoped<IEmployeeService, EmployeeService>();
             builder.Services.AddScoped<IUnitOfWork , UnitOfWork>();
             builder.Services.AddAutoMapper(M => M.AddProfile(new MappingProfiles()));
+            builder.Services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders();
 
 
 
@@ -55,7 +58,7 @@ namespace Demo.PL
 
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Home}/{action=Index}/{id?}");
+                pattern: "{controller=Account}/{action=Register}/{id?}");
 
             app.Run();
         }
